@@ -2,7 +2,7 @@
 
 matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 
-matrix::matrix matrix::operator+ (matrix::matrix& addend) {
+matrix matrix::operator+ (matrix& addend) {
 	matrix og = *this;
 
 }
