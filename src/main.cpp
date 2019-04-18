@@ -7,17 +7,10 @@ using namespace std;
 
 int main() {
     
-	matrix m({ {1,2,3}, {1,2,3}, {1,2,3}});
+	matrix m({{1,2,3}, {1,2,3}, {1,2,3}});
+    matrix n({{3,2,1}, {3,2,1}, {3,2,1}});
 
-
-    vector<vector<double>> n =  m.getData();
-
-    for(auto v : n) {
-        for(auto i : v)
-        {
-            cout << i << endl;
-        }
-    }
+    cout << m - n << endl;
 
     return 0;
 }

@@ -9,8 +9,12 @@ class matrix {
     
 public:
     matrix(std::vector<std::vector<double>> v);
+    matrix(int r, int c);
 
-    matrix operator+ (matrix& addend);
+    std::vector<double>& operator[](int r);
+
+    matrix operator+(matrix& addend);
+    matrix operator-(matrix& subtrahend);
 
     int row();
     int col();
@@ -24,5 +28,10 @@ private:
 };
 
 inline std::ostream& operator<<(std::ostream &out, const matrix &m) {
-    for (auto v : m.data)
+    for (auto v : m.data) {
+        for (auto d : v) out << d << " ";
+        out << std::endl;
+    }
+
+    return out;
 }
