@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <initializer_list>
+#include <ostream>
 
 class matrix {
     
@@ -16,6 +17,12 @@ public:
 
     std::vector<std::vector<double>> getData();
 
+    friend std::ostream& operator<<(std::ostream &out, const matrix &m);
+
 private:
     std::vector<std::vector<double>> data;
 };
+
+inline std::ostream& operator<<(std::ostream &out, const matrix &m) {
+    for (auto v : m.data)
+}
