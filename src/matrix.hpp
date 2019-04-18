@@ -16,6 +16,8 @@ public:
     matrix operator+(matrix& addend);
     matrix operator-(matrix& subtrahend);
 
+	matrix dot(matrix& mat);
+
     int row();
     int col();
 

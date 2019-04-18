@@ -41,9 +41,24 @@ matrix matrix::operator-(matrix& subtrahend) {
         return diff;
     }
     else {
-        std::cout << "Error: Dimension mixmatch" << std::endl;
+		throw std::out_of_range("Error: Dimension mixmatch");
         exit(0);
     }
+}
+
+matrix matrix::dot(matrix & mat) {
+	if (col() == mat.row()) {
+		matrix dot(row(), mat.col());
+		for (int r = 0; r < row(); r++) {
+			for (int c = 0; c < mat.col(); c++) {
+
+			}
+		}
+	}
+	else {
+		throw std::out_of_range("Error: Dimension mixmatch");
+		exit(0);
+	}
 }
 
 int matrix::row() {
