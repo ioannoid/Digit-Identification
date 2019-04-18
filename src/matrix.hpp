@@ -9,6 +9,8 @@ class matrix {
 public:
     matrix(std::vector<std::vector<double>> v);
 
+    matrix operator+ (matrix& addend);
+
     int row();
     int col();
 
