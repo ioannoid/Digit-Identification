@@ -7,10 +7,12 @@
 class matrix {
     
 public:
-    matrix(std::initializer_list<std::initializer_list<double>> in);
+    matrix(std::vector<std::vector<double>> v);
 
     int row();
     int col();
+
+    std::vector<std::vector<double>> getData();
 
 private:
     std::vector<std::vector<double>> data;
