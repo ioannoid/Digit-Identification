@@ -1,11 +1,6 @@
 #include "matrix.hpp"
 
-matrix::matrix(std::initializer_list<std::initializer_list<double>> in) {
-    data.resize(in.size());
-    for(auto &v : data) v.resize(in.begin.size());
-    
-    for(int i = 0; i < data.size())
-}
+matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 
 matrix::matrix matrix::operator+ (matrix::matrix& addend) {
 	matrix og = *this;
@@ -18,4 +13,8 @@ int matrix::row() {
 
 int matrix::col() {
     return data[0].size();
+}
+
+std::vector<std::vector<double>> matrix::getData() {
+    return data;
 }
