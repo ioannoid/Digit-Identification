@@ -13,17 +13,18 @@ std::vector<double>& matrix::operator[](int r) {
 
 matrix matrix::operator+ (matrix& addend) {
 	matrix og = *this;
-	int ogrows = og.getData().size();
-	int ogcols = og.getData()[0].size();
-	int addendrows = addend.getData().size();
-	int addendcols = addend.getData()[0].size();
-	if (ogrows == addendrows && ogcols == addendcols) {
-
+	if (row() == addend.row() && col() == addend.col()) {
+		matrix n(row(),col());
+		for (int y = 0; y < row(); y++) {
+			for (int x = 0; x < col(); x++) {
+				n[x][y] = og[x][y] + addend[x][y];
+			}
+		}
+		return n;
 	}
 	else {
-		std::cout << "Two matrixes of different size were attempted to be added.";
+		throw std::out_of_range("Error: Dimension mixmatch.");
 		exit(0);
-		
 	}
 
 	return matrix({});

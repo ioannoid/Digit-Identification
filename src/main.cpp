@@ -7,10 +7,10 @@ using namespace std;
 
 int main() {
     
-	matrix m({{1,2,3}, {1,2,3}, {1,2,3}});
-    matrix n({{3,2,1}, {3,2,1}, {3,2,1}});
+	matrix m({{1,1,1}, {2,2,2}, {3,3,3}});
+    matrix n({{4,4,4}, {5,5,5}, {6,6,6}});
 
-    cout << m - n << endl;
+    cout << m + n << endl;
 
     return 0;
 }
