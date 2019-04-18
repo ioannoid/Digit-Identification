@@ -7,6 +7,11 @@ matrix::matrix(std::initializer_list<std::initializer_list<double>> in) {
     for(int i = 0; i < data.size())
 }
 
+matrix::matrix matrix::operator+ (matrix::matrix& addend) {
+	matrix og = *this;
+
+}
+
 int matrix::row() {
     return data.size();
 }
