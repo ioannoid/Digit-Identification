@@ -6,3 +6,11 @@ matrix::matrix(std::initializer_list<std::initializer_list<double>> in) {
     
     for(int i = 0; i < data.size())
 }
+
+int matrix::row() {
+    return data.size();
+}
+
+int matrix::col() {
+    return data[0].size();
+}
