@@ -4,6 +4,7 @@
 #include <vector>
 #include <initializer_list>
 #include <ostream>
+#include <random>
 
 class matrix {
     
@@ -19,10 +20,10 @@ public:
 	matrix dot(matrix& mat);
 	matrix T();
 
+	static matrix randn(int r, int c);
+
     int row();
     int col();
-
-    std::vector<std::vector<double>> getData();
 
     friend std::ostream& operator<<(std::ostream &out, const matrix &m);
 

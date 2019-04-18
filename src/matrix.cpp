@@ -66,8 +66,7 @@ matrix matrix::dot(matrix& mat) {
 	}
 }
 
-matrix matrix::T()
-{
+matrix matrix::T() {
 	matrix t(col(), row());
 	for (int c = 0; c < col(); c++) {
 		for (int r = 0; r < row(); r++) {
@@ -78,14 +77,27 @@ matrix matrix::T()
 	return t;
 }
 
+matrix matrix::randn(int r, int c)
+{
+	auto randn = []()
+	{
+		std::random_device rd;
+		std::mt19937 mt(rd());
+		std::normal_distribution<double> dist(0.0, 2.0);
+		return dist(mt);
+	};
+
+	matrix randnMat(r, c);
+	for (int i = 0; i < r; i++)
+		for (int j = 0; j < c; j++)
+			randnMat[i][j] = randn();
+	return randnMat;
+}
+
 int matrix::row() {
     return data.size();
 }
 
 int matrix::col() {
     return data[0].size();
-}
-
-std::vector<std::vector<double>> matrix::getData() {
-    return data;
 }

@@ -17,6 +17,10 @@ int main() {
 
 	cout << t.dot(s.T()) << endl;
 
+	matrix x = matrix::randn(3, 3);
+
+	cout << x;
+
 	system("PAUSE");
 
     return 0;
