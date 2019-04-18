@@ -1,13 +1,21 @@
 {
   "configurations": [
     {
-      "name": "Windows x64",
-      "includePath": [ "include" ],
-      "defines": [ "_DEBUG" ],
-      "compilerSwitches": "/std:c++17",
-      "intelliSenseMode": "windows-msvc-x64",
-      "forcedInclude": [ "pch.h" ],
-      "undefines": []
+      "inheritEnvironments": [
+        "msvc_x64"
+      ],
+      "name": "x64-Release",
+      "includePath": [
+        "${env.INCLUDE}",
+        "${workspaceRoot}\\**"
+      ],
+      "defines": [
+        "WIN32",
+        "NDEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "intelliSenseMode": "windows-msvc-x64"
     }
   ]
 }
