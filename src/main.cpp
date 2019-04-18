@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
     
-	matrix m({ {1,2,3}, {1,2,3}, {1,2,3} });
+	matrix m({ {1,2,3}, {1,2,3}, {1,2,3}});
 
 
     vector<vector<double>> n =  m.getData();

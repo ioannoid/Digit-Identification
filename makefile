@@ -8,5 +8,5 @@ mac :
 	make clean
 
 clean :
-	rm -rf *.obj
-	rm -rf *.o
+	del *.obj
+	del *.o
