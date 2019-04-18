@@ -35,7 +35,7 @@ matrix matrix::operator-(matrix& subtrahend) {
         matrix diff(row(), col());
         for (int r = 0; r < row(); r++) {
             for (int c = 0; c < col(); c++) {
-                diff[r][c] = (*this)[r][c] - subtrahend[r][c];
+                diff[r][c] = data[r][c] - subtrahend[r][c];
             }
         }
 
@@ -47,19 +47,35 @@ matrix matrix::operator-(matrix& subtrahend) {
     }
 }
 
-matrix matrix::dot(matrix & mat) {
+matrix matrix::dot(matrix& mat) {
 	if (col() == mat.row()) {
 		matrix dot(row(), mat.col());
 		for (int r = 0; r < row(); r++) {
 			for (int c = 0; c < mat.col(); c++) {
-
+				double sum = 0;
+				for (int i = 0; i < col(); i++) sum += (data[r][i] * mat[i][c]);
+				dot[r][c] = sum;
 			}
 		}
+
+		return dot;
 	}
 	else {
 		throw std::out_of_range("Error: Dimension mixmatch");
 		exit(0);
 	}
+}
+
+matrix matrix::T()
+{
+	matrix t(col(), row());
+	for (int c = 0; c < col(); c++) {
+		for (int r = 0; r < row(); r++) {
+			t[c][r] = data[r][c];
+		}
+	}
+
+	return t;
 }
 
 int matrix::row() {
