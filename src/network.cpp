@@ -8,18 +8,37 @@ network::network(std::vector<int> map) {
 		w[i - 1] = matrix::randn(map[i-1], map[i]);
 		b[i - 1] = matrix::randn(1, map[i]);
 	}
-
-	//for (auto m : w) std::cout << m;
-	//for (auto m : b) std::cout << m;
 }
 
 matrix network::predict(matrix in) {
 	for (int i = 0; i < w.size(); i++) {
-		std::cout << in << w[i] << b[i] << std::endl;
-		in = in.dot(w[i]) + b[i];
+		in = sigmoid(in.dot(w[i]) + b[i]);
 	}
 
 	return in;
+}
+matrix network::propagate(matrix in, matrix out) {
+
+	matrix predict = in;
+
+	std::vector<matrix> z(w.size(), matrix());
+	std::vector<matrix> a(w.size(), matrix());
+
+	for(int i = 0; i < w.size(); i++) {
+		z[i] = predict.dot(w[i]) + b[i];
+		a[i] = sigmoid(z[i]);
+		predict = a[i];
+	}
+
+	return a[a.size()-1];
+}
+
+matrix network::cost(matrix in, matrix out) {
+	return 0.5*((in - out)^2);
+}
+
+matrix network::d_cost(matrix in, matrix out) {
+	return in - out;
 }
 
 matrix network::sigmoid(matrix in) {

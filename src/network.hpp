@@ -10,6 +10,10 @@ public:
 	network(std::vector<int> map);
 
 	matrix predict(matrix in);
+	matrix propagate(matrix in, matrix out);
+
+	matrix cost(matrix in, matrix out);
+	matrix d_cost(matrix in, matrix out);
 
 	matrix sigmoid(matrix in);
 	matrix d_sigmoid(matrix in);

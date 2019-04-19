@@ -12,9 +12,7 @@ int main() {
 	matrix prediction = nn.predict(matrix({ {2,2} }));
 
 	cout << prediction << endl;
-
 	
-
 	system("PAUSE");
 
     return 0;

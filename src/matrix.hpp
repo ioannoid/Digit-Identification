@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <iomanip>
 
 class matrix {
 
@@ -19,10 +20,12 @@ public:
 
 	matrix operator+(double addend);
 	matrix operator-(double subtrahend);
+	matrix operator^(double exponent);
 	matrix operator-();
 
 	friend matrix operator+(double addend, matrix maddend);
 	friend matrix operator-(double minuend, matrix subtrahend);
+	friend matrix operator*(double factor, matrix mfactor);
 	friend matrix operator/(double dividend, matrix divisor);
 	friend matrix operator^(double base, matrix exponent);
 
@@ -60,6 +63,17 @@ inline matrix operator-(double minuend, matrix subtrahend) {
 	}
 
 	return diff;
+}
+
+inline matrix operator*(double factor, matrix mfactor) {
+	matrix product(mfactor.row(), mfactor.col());
+	for (int r = 0; r < product.row(); r++) {
+		for (int c = 0; c < product.col(); c++) {
+			product[r][c] = factor + mfactor[r][c];
+		}
+	}
+
+	return product;
 }
 
 inline matrix operator/(double dividend, matrix divisor) {

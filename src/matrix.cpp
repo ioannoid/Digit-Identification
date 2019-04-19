@@ -61,8 +61,7 @@ matrix matrix::operator*(matrix factor) {
 	}
 }
 
-matrix matrix::operator+(double addend)
-{
+matrix matrix::operator+(double addend) {
 	matrix sum = data;
 	for (int r = 0; r < row(); r++) {
 		for (int c = 0; c < col(); c++) {
@@ -73,8 +72,7 @@ matrix matrix::operator+(double addend)
 	return sum;
 }
 
-matrix matrix::operator-(double subtrahend)
-{
+matrix matrix::operator-(double subtrahend) {
 	matrix diff = data;
 	for (int r = 0; r < row(); r++) {
 		for (int c = 0; c < col(); c++) {
@@ -83,6 +81,17 @@ matrix matrix::operator-(double subtrahend)
 	}
 
 	return diff;
+}
+
+matrix matrix::operator^(double exponent) {
+	matrix e = data;
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			e[r][c] = pow(e[r][c], exponent);
+		}
+	}
+
+	return e;
 }
 
 matrix matrix::operator-() {
@@ -110,7 +119,6 @@ matrix matrix::dot(matrix mat) {
 		return dot;
 	}
 	else {
-		std::cout << "what" << std::endl;
 		throw std::out_of_range("Error: Dimension mixmatch");
 	}
 }
@@ -128,18 +136,18 @@ matrix matrix::T() {
 
 matrix matrix::randn(int r, int c)
 {
-	auto randn = []()
-	{
-		std::random_device rd;
-		std::mt19937 mt(rd());
-		std::normal_distribution<double> dist(0.0, 2.0);
-		return dist(mt);
-	};
+	std::random_device rd;
+    std::mt19937 e2(rd());
+
+	e2.seed(time(NULL));
 
 	matrix randnMat(r, c);
 	for (int i = 0; i < r; i++)
 		for (int j = 0; j < c; j++)
-			randnMat[i][j] = randn();
+		{
+			std::normal_distribution<double> dist(0.0, 2.0);
+			randnMat[i][j] = dist(e2);;
+		}
 	return randnMat;
 }
 
