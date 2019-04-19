@@ -14,20 +14,19 @@ std::vector<double>& matrix::operator[](int r) {
 }
 
 matrix matrix::operator+ (matrix addend) {
-	matrix og = *this;
 	if (row() == addend.row() && col() == addend.col()) {
-		matrix n(row(),col());
-		for (int y = 0; y < row(); y++) {
-			for (int x = 0; x < col(); x++) {
-				n[x][y] = og[x][y] + addend[x][y];
-			}
-		}
-		return n;
-	}
-	else {
-		std::cout << "what" << std::endl;
-		throw std::out_of_range("Error: Dimension mixmatch.");
-	}
+        matrix sum(row(), col());
+        for (int r = 0; r < row(); r++) {
+            for (int c = 0; c < col(); c++) {
+                sum[r][c] = data[r][c] + addend[r][c];
+            }
+        }
+
+        return sum;
+    }
+    else {
+		throw std::out_of_range("Error: Dimension mixmatch");
+    }
 }
 
 matrix matrix::operator-(matrix subtrahend) {
