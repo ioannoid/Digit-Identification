@@ -1,11 +1,13 @@
 #include "matrix.hpp"
 
-matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
+matrix::matrix() {}
 
 matrix::matrix(int r, int c) {
-    data.resize(r);
-    for(int i = 0; i < r; i++) data[i] = std::vector<double>(c, 0);
+	data.resize(r);
+	for (int i = 0; i < r; i++) data[i] = std::vector<double>(c, 0);
 }
+
+matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 
 std::vector<double>& matrix::operator[](int r) {
     return data[r];
@@ -26,8 +28,6 @@ matrix matrix::operator+ (matrix& addend) {
 		throw std::out_of_range("Error: Dimension mixmatch.");
 		exit(0);
 	}
-
-	return matrix({});
 }
 
 matrix matrix::operator-(matrix& subtrahend) {
