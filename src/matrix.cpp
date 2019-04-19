@@ -13,7 +13,7 @@ std::vector<double>& matrix::operator[](int r) {
     return data[r];
 }
 
-matrix matrix::operator+ (matrix& addend) {
+matrix matrix::operator+ (matrix addend) {
 	matrix og = *this;
 	if (row() == addend.row() && col() == addend.col()) {
 		matrix n(row(),col());
@@ -30,7 +30,7 @@ matrix matrix::operator+ (matrix& addend) {
 	}
 }
 
-matrix matrix::operator-(matrix& subtrahend) {
+matrix matrix::operator-(matrix subtrahend) {
     if (row() == subtrahend.row() && col() == subtrahend.col()) {
         matrix diff(row(), col());
         for (int r = 0; r < row(); r++) {
@@ -46,7 +46,7 @@ matrix matrix::operator-(matrix& subtrahend) {
     }
 }
 
-matrix matrix::operator*(matrix& factor) {
+matrix matrix::operator*(matrix factor) {
 	if (row() == factor.row() && col() == factor.col()) {
 		matrix product(row(), col());
 		for (int r = 0; r < row(); r++) {
@@ -59,7 +59,6 @@ matrix matrix::operator*(matrix& factor) {
 	}
 	else {
 		throw std::out_of_range("Error: Dimension mixmatch");
-		exit(0);
 	}
 }
 
@@ -98,7 +97,7 @@ matrix matrix::operator-() {
 	return negation;
 }
 
-matrix matrix::dot(matrix& mat) {
+matrix matrix::dot(matrix mat) {
 	if (col() == mat.row()) {
 		matrix dot(row(), mat.col());
 		for (int r = 0; r < row(); r++) {
@@ -114,7 +113,6 @@ matrix matrix::dot(matrix& mat) {
 	else {
 		std::cout << "what" << std::endl;
 		throw std::out_of_range("Error: Dimension mixmatch");
-		exit(0);
 	}
 }
 

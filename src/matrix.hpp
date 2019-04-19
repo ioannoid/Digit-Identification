@@ -13,20 +13,20 @@ public:
 
 	std::vector<double>& operator[](int r);
 
-	matrix operator+(matrix& addend);
-	matrix operator-(matrix& subtrahend);
-	matrix operator*(matrix& factor);
+	matrix operator+(matrix addend);
+	matrix operator-(matrix subtrahend);
+	matrix operator*(matrix factor);
 
 	matrix operator+(double addend);
 	matrix operator-(double subtrahend);
 	matrix operator-();
 
-	friend matrix operator+(double addend, matrix& maddend);
-	friend matrix operator-(double minuend, matrix& subtrahend);
-	friend matrix operator/(double dividend, matrix& divisor);
-	friend matrix operator^(double base, matrix& exponent);
+	friend matrix operator+(double addend, matrix maddend);
+	friend matrix operator-(double minuend, matrix subtrahend);
+	friend matrix operator/(double dividend, matrix divisor);
+	friend matrix operator^(double base, matrix exponent);
 
-	matrix dot(matrix& mat);
+	matrix dot(matrix mat);
 	matrix T();
 
 	static matrix randn(int r, int c);
@@ -40,7 +40,7 @@ private:
     std::vector<std::vector<double>> data;
 };
 
-inline matrix operator+(double addend, matrix& maddend) {
+inline matrix operator+(double addend, matrix maddend) {
 	matrix sum(maddend.row(), maddend.col());
 	for (int r = 0; r < sum.row(); r++) {
 		for (int c = 0; c < sum.col(); c++) {
@@ -51,7 +51,7 @@ inline matrix operator+(double addend, matrix& maddend) {
 	return sum;
 }
 
-inline matrix operator-(double minuend, matrix& subtrahend) {
+inline matrix operator-(double minuend, matrix subtrahend) {
 	matrix diff(subtrahend.row(), subtrahend.col());
 	for (int r = 0; r < diff.row(); r++) {
 		for (int c = 0; c < diff.col(); c++) {
@@ -62,7 +62,7 @@ inline matrix operator-(double minuend, matrix& subtrahend) {
 	return diff;
 }
 
-inline matrix operator/(double dividend, matrix& divisor) {
+inline matrix operator/(double dividend, matrix divisor) {
 	matrix quotient(divisor.row(), divisor.col());
 	for (int r = 0; r < quotient.row(); r++) {
 		for (int c = 0; c < quotient.col(); c++) {
@@ -73,7 +73,7 @@ inline matrix operator/(double dividend, matrix& divisor) {
 	return quotient;
 }
 
-inline matrix operator^(double base, matrix& exponent) {
+inline matrix operator^(double base, matrix exponent) {
 	matrix e(exponent.row(), exponent.col());
 	for (int r = 0; r < e.row(); r++) {
 		for (int c = 0; c < e.col(); c++) {
