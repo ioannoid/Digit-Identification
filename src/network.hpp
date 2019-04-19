@@ -10,7 +10,8 @@ class network {
 public:
 	network(std::vector<int> map);
 
-	friend class trainer;
+	matrix sigmoid(matrix& in);
+	matrix d_sigmoid(matrix& in);
 
 private:
 	std::vector<matrix> w;

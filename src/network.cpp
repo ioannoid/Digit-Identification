@@ -12,3 +12,11 @@ network::network(std::vector<int> map) {
 	for (auto m : w) std::cout << m;
 	for (auto m : b) std::cout << m;
 }
+
+matrix network::sigmoid(matrix& in) {
+	return 1 / (1 + (2.718281 ^ -in));
+}
+
+matrix network::d_sigmoid(matrix& in) {
+	return sigmoid(in)*(1 - sigmoid(in));
+}

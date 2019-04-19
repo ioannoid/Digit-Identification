@@ -7,16 +7,26 @@
 #include <random>
 
 class matrix {
-    
+
 public:
 	matrix();
 	matrix(int r, int c);
-    matrix(std::vector<std::vector<double>> v);
+	matrix(std::vector<std::vector<double>> v);
 
-    std::vector<double>& operator[](int r);
+	std::vector<double>& operator[](int r);
 
-    matrix operator+(matrix& addend);
-    matrix operator-(matrix& subtrahend);
+	matrix operator+(matrix& addend);
+	matrix operator-(matrix& subtrahend);
+	matrix operator*(matrix& factor);
+
+	matrix operator+(double addend);
+	matrix operator-(double subtrahend);
+	matrix operator-();
+
+	friend matrix operator+(double addend, matrix& maddend);
+	friend matrix operator-(double minuend, matrix& subtrahend);
+	friend matrix operator/(double dividend, matrix& divisor);
+	friend matrix operator^(double base, matrix& exponent);
 
 	matrix dot(matrix& mat);
 	matrix T();
@@ -31,6 +41,50 @@ public:
 private:
     std::vector<std::vector<double>> data;
 };
+
+inline matrix operator+(double addend, matrix& maddend) {
+	matrix sum(maddend.row(), maddend.col());
+	for (int r = 0; r < sum.row(); r++) {
+		for (int c = 0; c < sum.col(); c++) {
+			sum[r][c] = addend + maddend[r][c];
+		}
+	}
+
+	return sum;
+}
+
+inline matrix operator-(double minuend, matrix& subtrahend) {
+	matrix diff(subtrahend.row(), subtrahend.col());
+	for (int r = 0; r < diff.row(); r++) {
+		for (int c = 0; c < diff.col(); c++) {
+			diff[r][c] = minuend - subtrahend[r][c];
+		}
+	}
+
+	return diff;
+}
+
+inline matrix operator/(double dividend, matrix& divisor) {
+	matrix quotient(divisor.row(), divisor.col());
+	for (int r = 0; r < quotient.row(); r++) {
+		for (int c = 0; c < quotient.col(); c++) {
+			quotient[r][c] = dividend / divisor	[r][c];
+		}
+	}
+
+	return quotient;
+}
+
+inline matrix operator^(double base, matrix& exponent) {
+	matrix e(exponent.row(), exponent.col());
+	for (int r = 0; r < e.row(); r++) {
+		for (int c = 0; c < e.col(); c++) {
+			e[r][c] = pow(base, exponent[r][c]);
+		}
+	}
+
+	return e;
+}
 
 inline std::ostream& operator<<(std::ostream &out, const matrix &m) {
     for (auto v : m.data) {

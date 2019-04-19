@@ -47,6 +47,58 @@ matrix matrix::operator-(matrix& subtrahend) {
     }
 }
 
+matrix matrix::operator*(matrix& factor) {
+	if (row() == factor.row() && col() == factor.col()) {
+		matrix product(row(), col());
+		for (int r = 0; r < row(); r++) {
+			for (int c = 0; c < col(); c++) {
+				product[r][c] = data[r][c] * factor[r][c];
+			}
+		}
+
+		return product;
+	}
+	else {
+		throw std::out_of_range("Error: Dimension mixmatch");
+		exit(0);
+	}
+}
+
+matrix matrix::operator+(double addend)
+{
+	matrix sum = data;
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			sum[r][c] += addend;
+		}
+	}
+
+	return sum;
+}
+
+matrix matrix::operator-(double subtrahend)
+{
+	matrix diff = data;
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			diff[r][c] -= subtrahend;
+		}
+	}
+
+	return diff;
+}
+
+matrix matrix::operator-() {
+	matrix negation(row(), col());
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			negation[r][c] = -data[r][c];
+		}
+	}
+
+	return negation;
+}
+
 matrix matrix::dot(matrix& mat) {
 	if (col() == mat.row()) {
 		matrix dot(row(), mat.col());
