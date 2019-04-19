@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 #include "matrix.hpp"
 #include "network.hpp"

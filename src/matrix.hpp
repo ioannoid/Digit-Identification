@@ -2,8 +2,6 @@
 
 #include <iostream>
 #include <vector>
-#include <initializer_list>
-#include <ostream>
 #include <random>
 
 class matrix {
