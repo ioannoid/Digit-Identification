@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "matrix.hpp"
 #include "network.hpp"
 
@@ -9,7 +8,12 @@ int main() {
     
 	matrix m({ { 1,2,3 }, { 1,2,3 } });
 
-	cout << m;
+	network nn({ 2, 4, 2 });
+	matrix prediction = nn.predict(matrix({ {2,2} }));
+
+	cout << prediction << endl;
+
+	
 
 	system("PAUSE");
 

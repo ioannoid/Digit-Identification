@@ -9,8 +9,10 @@ class network {
 public:
 	network(std::vector<int> map);
 
-	matrix sigmoid(matrix& in);
-	matrix d_sigmoid(matrix& in);
+	matrix predict(matrix in);
+
+	matrix sigmoid(matrix in);
+	matrix d_sigmoid(matrix in);
 
 private:
 	std::vector<matrix> w;

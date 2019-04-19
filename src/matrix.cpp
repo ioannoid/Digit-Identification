@@ -25,8 +25,8 @@ matrix matrix::operator+ (matrix& addend) {
 		return n;
 	}
 	else {
+		std::cout << "what" << std::endl;
 		throw std::out_of_range("Error: Dimension mixmatch.");
-		exit(0);
 	}
 }
 
@@ -43,7 +43,6 @@ matrix matrix::operator-(matrix& subtrahend) {
     }
     else {
 		throw std::out_of_range("Error: Dimension mixmatch");
-        exit(0);
     }
 }
 
@@ -113,6 +112,7 @@ matrix matrix::dot(matrix& mat) {
 		return dot;
 	}
 	else {
+		std::cout << "what" << std::endl;
 		throw std::out_of_range("Error: Dimension mixmatch");
 		exit(0);
 	}
