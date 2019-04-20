@@ -26,7 +26,7 @@ int main() {
 
 	for(int i = 0; i < 10000; i++) {
 		int n = rand() % 3;
-		nn.propagate(n1[n], n2[n]);
+		nn.propagate(n1[n], n2[n]); 
 	} 
 
 	cout << nn.predict(matrix{{1},{2}});

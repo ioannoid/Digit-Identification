@@ -17,6 +17,7 @@ matrix network::predict(matrix in) {
 
 	return in;
 }
+
 matrix network::propagate(matrix in, matrix out) {
 	matrix predict = in;
 
