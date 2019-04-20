@@ -20,6 +20,7 @@ public:
 
 	matrix operator+(double addend);
 	matrix operator-(double subtrahend);
+	matrix operator*(double factor);
 	matrix operator^(double exponent);
 	matrix operator-();
 

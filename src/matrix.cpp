@@ -83,6 +83,17 @@ matrix matrix::operator-(double subtrahend) {
 	return diff;
 }
 
+matrix matrix::operator*(double factor) {
+	matrix product = data;
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			product[r][c] *= factor;
+		}
+	}
+
+	return product;
+}
+
 matrix matrix::operator^(double exponent) {
 	matrix e = data;
 	for (int r = 0; r < row(); r++) {
