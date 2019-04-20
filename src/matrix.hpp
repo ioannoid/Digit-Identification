@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 #include <iomanip>
+#include <initializer_list>
 
 class matrix {
 
@@ -11,6 +12,7 @@ public:
 	matrix();
 	matrix(int r, int c);
 	matrix(std::vector<std::vector<double>> v);
+	matrix(std::initializer_list<std::initializer_list<double>> il);
 
 	std::vector<double>& operator[](int r);
 

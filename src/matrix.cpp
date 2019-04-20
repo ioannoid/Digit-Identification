@@ -9,6 +9,13 @@ matrix::matrix(int r, int c) {
 
 matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 
+matrix::matrix(std::initializer_list<std::initializer_list<double>> il) {
+	data.resize(il.size());
+	for(int i = 0; i < il.size(); i++) {
+		data[i] = std::vector(*(il.begin()+i));
+	}
+}
+
 std::vector<double>& matrix::operator[](int r) {
     return data[r];
 }
