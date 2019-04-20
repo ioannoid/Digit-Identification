@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "matrix.hpp"
 #include "network.hpp"
 
@@ -26,7 +27,11 @@ int main() {
 
 	for(int i = 0; i < 10000; i++) {
 		int n = rand() % 3;
-		nn.propagate(n1[n], n2[n]); 
+		matrix out = nn.propagate(n1[n], n2[n]);
+
+		if(i % 100 == 0) {
+			cout << out << endl;
+		} 
 	} 
 
 	cout << nn.predict(matrix{{1},{2}});
