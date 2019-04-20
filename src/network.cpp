@@ -18,31 +18,6 @@ matrix network::predict(matrix in) {
 	return in;
 }
 matrix network::propagate(matrix in, matrix out) {
-
-	/*matrix z1 = w[0].T().dot(in) + b[0];
-	matrix a1 = sigmoid(z1);
-
-	matrix z2 = w[1].T().dot(a1) + b[1];
-	matrix a2 = sigmoid(z2);
-
-	matrix dcost_da2 = d_cost(a2, out);
-	matrix da2_dz2 = d_sigmoid(z2);
-	matrix dz2_dw2 = a1;
-	double dz2_db2 = 1;
-
-	matrix dcost_dw2 = dz2_dw2.dot((dcost_da2*da2_dz2).T());
-	matrix dcost_db2 = dcost_da2 * da2_dz2 * dz2_db2;
-
-
-	std::cout << w[1] << std::endl << da2_dz2 << std::endl << dcost_da2;
-	matrix dcost_da1 = w[1].dot(da2_dz2 * dcost_da2);
-	matrix da1_dz1 = d_sigmoid(z1);
-	matrix dz1_dw1 = in;
-	double dz1_db1 = 1;
-
-	matrix dcost_dw1 = dz1_dw1.dot((dcost_da1*da1_dz1).T());
-	matrix dcost_db1 = dcost_da1 * da1_dz1 * dz1_db1;*/
-
 	matrix predict = in;
 
 	std::vector<matrix> z(w.size(), matrix());
@@ -106,32 +81,13 @@ matrix network::cost(matrix in, matrix out) {
 }
 
 matrix network::d_cost(matrix in, matrix out) {
-	matrix dcost(in.row(), in.col());
-	for(int r = 0; r < in.row(); r++) {
-		for(int c = 0; c < in.col(); c++) {
-			dcost[r][c] = 2.0 * (in[r][c] - out[r][c]);
-		}
-	}
-
-	return dcost;
+	return 2.0 * (in - out);
 }
 
 matrix network::sigmoid(matrix in) {
-	matrix sig(in.row(), in.col());
-	for(int r = 0; r < in.row(); r++) {
-		for(int c = 0; c < in.col(); c++) {
-			sig[r][c] = 1.0 / (1.0 + exp(-in[r][c]));
-		}
-	}
-	return sig;
+	return 1 / (1 + (2.718281 ^ -in));
 }
 
 matrix network::d_sigmoid(matrix in) {
-	matrix sig(in.row(), in.col());
-	for(int r = 0; r < in.row(); r++) {
-		for(int c = 0; c < in.col(); c++) {
-			sig[r][c] = (exp(-in[r][c])) / pow((1.0 + exp(-in[r][c])),2.0);
-		}
-	}
-	return sig;
+	return sigmoid(in) * (1 - sigmoid(in));
 }

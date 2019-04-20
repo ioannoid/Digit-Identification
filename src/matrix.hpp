@@ -72,7 +72,7 @@ inline matrix operator*(double factor, matrix mfactor) {
 	matrix product(mfactor.row(), mfactor.col());
 	for (int r = 0; r < product.row(); r++) {
 		for (int c = 0; c < product.col(); c++) {
-			product[r][c] = factor + mfactor[r][c];
+			product[r][c] = factor * mfactor[r][c];
 		}
 	}
 
