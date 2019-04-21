@@ -10,6 +10,53 @@ network::network(std::vector<int> map) {
 	}
 }
 
+network::network(std::string fpath) {
+	std::ifstream nnmap;
+	nnmap.open(fpath);
+
+    std::string type;
+	std::string data;
+
+    while (std::getline(nnmap, type)) {
+		if (type[0] == 'w') {
+			int row = stoi(type.substr(1, type.find('|') - 1));
+			int length = stoi(type.substr(type.find('|') + 1));
+
+			std::vector<std::vector<double>> vmatrix;
+			std::vector<double> r;
+
+			while (length != 0 && std::getline(nnmap, data)) {
+				r.push_back(stod(data));
+				row--;
+
+				if (row == 0) {
+					vmatrix.push_back(r);
+					r.clear();
+					row = stoi(type.substr(1, type.find('|')));
+				}
+
+				length--;
+			}
+
+			w.push_back(matrix(vmatrix));
+		}
+		else if (type[0] == 'b') {
+			int length = stoi(type.substr(1));
+
+			std::vector<std::vector<double>> vmatrix;
+
+			while (length != 0 && std::getline(nnmap, data)) {
+				vmatrix.push_back(std::vector<double>{stod(data)});
+				length--;
+			}
+
+			b.push_back(matrix(vmatrix));
+		}
+    }
+
+	nnmap.close();
+}
+
 matrix network::predict(matrix in) {
 	for (int i = 0; i < w.size(); i++) {
 		in = sigmoid(w[i].T().dot(in) + b[i]);
@@ -91,4 +138,36 @@ matrix network::sigmoid(matrix in) {
 
 matrix network::d_sigmoid(matrix in) {
 	return sigmoid(in) * (1 - sigmoid(in));
+}
+
+std::vector<matrix> network::getWeights() {
+	return w;
+}
+
+std::vector<matrix> network::getBiases() {
+	return b;
+}
+
+void network::save() {
+	std::ofstream nnmap;
+	nnmap.open("nnmap.nn");
+
+	for (int m = 0; m < w.size(); m++) {
+		nnmap << "w" << w[m].col() << "|" << w[m].row() * w[m].col() << "\n";
+
+		for (int r = 0; r < w[m].row(); r++) {
+			for (int c = 0; c < w[m].col(); c++) {
+				nnmap << w[m][r][c] << "\n";
+			}
+		}
+	}
+
+	for (int m = 0; m < b.size(); m++) {
+		nnmap << "b" << b[m].row() << "\n";
+
+		for (int r = 0; r < b[m].row(); r++) {
+			nnmap << b[m][r][0] << "\n";
+		}
+	}
+	nnmap.close();
 }

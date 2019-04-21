@@ -2,12 +2,15 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <string>
 
 #include "matrix.hpp"
 
 class network {
 public:
 	network(std::vector<int> map);
+	network(std::string fpath);
 
 	matrix predict(matrix in);
 	matrix propagate(matrix in, matrix out);
@@ -17,6 +20,11 @@ public:
 
 	matrix sigmoid(matrix in);
 	matrix d_sigmoid(matrix in);
+
+	std::vector<matrix> getWeights();
+	std::vector<matrix> getBiases();
+
+	void save();
 
 private:
 	std::vector<matrix> w;
