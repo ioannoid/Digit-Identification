@@ -169,5 +169,6 @@ void network::save(std::string fname) {
 			nnmap << b[m][r][0] << "\n";
 		}
 	}
+	
 	nnmap.close();
 }
