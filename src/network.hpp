@@ -24,7 +24,7 @@ public:
 	std::vector<matrix> getWeights();
 	std::vector<matrix> getBiases();
 
-	void save();
+	void save(std::string fname);
 
 private:
 	std::vector<matrix> w;

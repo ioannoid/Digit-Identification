@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-	network nn("nnmap.nn");
+	/*network nn("nnmap.nn");
 
 	vector<matrix> w = nn.getWeights();
 	vector<matrix> b = nn.getBiases();
@@ -17,7 +17,7 @@ int main() {
 
 	cout << nn.predict(matrix{{1},{2}});
 	cout << nn.predict(matrix{{2},{1}});
-	cout << nn.predict(matrix{{3},{4}});
+	cout << nn.predict(matrix{{3},{4}});*/
 
 	/*network nn(std::vector<int>{ 2, 3,4, 2 });
 
@@ -51,7 +51,7 @@ int main() {
 	cout << nn.predict(matrix{{2},{1}});
 	cout << nn.predict(matrix{{3},{4}});
 	
-	nn.save();*/
+	nn.save("nnmap1.nn");*/
 
     return 0;
 }

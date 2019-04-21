@@ -148,9 +148,9 @@ std::vector<matrix> network::getBiases() {
 	return b;
 }
 
-void network::save() {
+void network::save(std::string fname) {
 	std::ofstream nnmap;
-	nnmap.open("nnmap.nn");
+	nnmap.open(fname);
 
 	for (int m = 0; m < w.size(); m++) {
 		nnmap << "w" << w[m].col() << "|" << w[m].row() * w[m].col() << "\n";
