@@ -1,12 +1,24 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "matrix.hpp"
 #include "network.hpp"
 
 using namespace std;
 
+char* loadFile(const char* filename);
+size_t filesize(const char* filename);
+
 int main() {
+	char* imagebytes = loadFile("train-images");
+	char* labelbytes = loadFile("train-labels");
+
+	int fs = filesize("train-images");
+	for (int i = 0; i < 16; i++) {
+		cout << (uint32_t)imagebytes[i] << " ";
+	}
+
 	/*network nn("nnmap.nn");
 
 	vector<matrix> w = nn.getWeights();
@@ -54,4 +66,34 @@ int main() {
 	nn.save("nnmap1.nn");*/
 
     return 0;
+}
+
+char* loadFile(const char* filename) {
+	char* imagebytes;
+	size_t isize;
+
+	ifstream imagedata;
+	imagedata.open(filename, ios::binary);
+	if (!imagedata) {
+		throw std::out_of_range("Error: File not found.");
+	}
+
+	isize = filesize(filename);
+	imagebytes = new char[isize];
+
+	imagedata.read(imagebytes, isize);
+	imagedata.close();
+	return imagebytes;
+}
+
+size_t filesize(const char* filename) {
+	ifstream file;
+	file.open(filename, ios::ate | ios::binary);
+
+	if (!file) {
+		throw std::out_of_range("Error: File not found.");
+	}
+
+	size_t size = file.tellg();
+	return size;
 }
