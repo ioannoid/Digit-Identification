@@ -12,7 +12,7 @@ matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 matrix::matrix(std::initializer_list<std::initializer_list<double>> il) {
 	data.resize(il.size());
 	for(int i = 0; i < il.size(); i++) {
-		data[i] = std::vector(*(il.begin()+i));
+		data[i] = std::vector<double>(*(il.begin()+i));
 	}
 }
 
