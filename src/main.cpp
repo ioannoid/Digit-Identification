@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 #include "matrix.hpp"
 #include "network.hpp"
@@ -19,30 +20,74 @@ const char* labelfile = "train-labels";
 int main() {
 	char* imagebytes = loadFile(imgfile);
 	char* labelbytes = loadFile(labelfile);
+	
 	size_t isize = filesize(imgfile);
 	size_t lsize = filesize(labelfile);
 	
 	vector<vector<uint8_t>> images = processImages(imagebytes, isize);
 	vector<uint8_t> labels = processLabels(labelbytes, lsize);
+
+	int img;
+
+	cin >> img;
+	vector<uint8_t> image = images[img];
+
+	fstream file;
+	file.open("header", ios::in|ios::binary|ios::ate);
+    
+    size_t hsize = 0;
+    char* header;
+
+    file.seekg(0, ios::end);
+	hsize = file.tellg(); 
+	file.seekg(0, ios::beg); 
+
+    header = new char[hsize];
+
+    file.read( header, hsize );
+    file.close();
+
+    file.open("file.bmp", ios::binary | ios::out);
+    file.write(header, hsize);
+
+	int row = 0;
+	vector<uint8_t> pixels;
+
+	for(int i = image.size()-1; i >= 0; i--) {
+        pixels.push_back(image[i]);
+        pixels.push_back(image[i]);
+        pixels.push_back(image[i]);
+        row++;
+        if(row==28) {
+
+            std::reverse(pixels.begin(), pixels.end());
+
+            for (int j = 0; j < pixels.size(); j++) file.write((char*) &pixels[j], sizeof(char));
+            pixels.clear();
+            row = 0;
+        }
+    }
+
+	file.close();
 	
 	//Print out digit images with matching labels
-	/*int r = 0;
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < images[i].size(); j++) {
-			if (unsigned(images[i][j]) > 0) {
-				cout << 1 << " ";
-			}
-			else {
-				cout << 0 << " ";
-			}
-			r++;
-			if (r == 28) {
-				r = 0;
-				cout << endl;
-			}
-		}
-		cout << unsigned(labels[i]) << endl << endl;
-	}*/
+	// int r = 0;
+	// for (int i = 0; i < 5; i++) {
+	// 	for (int j = 0; j < images[i].size(); j++) {
+	// 		if (unsigned(images[i][j]) > 0) {
+	// 			cout << 1 << "";
+	// 		}
+	// 		else {
+	// 			cout << 0 << "";
+	// 		}
+	// 		r++;
+	// 		if (r == 28) {
+	// 			r = 0;
+	// 			cout << endl;
+	// 		}
+	// 	}
+	// 	cout << unsigned(labels[i]) << endl << endl;
+	// }
 
 	system("PAUSE"); 
 
