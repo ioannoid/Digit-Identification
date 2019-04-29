@@ -31,8 +31,4 @@ private:
 	std::vector<matrix> b;
 
 	double lrate;
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> c06debe31e83124227e440cb1b1042e20e240b2f
