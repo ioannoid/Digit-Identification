@@ -31,12 +31,6 @@ int main() {
 	size_t isize = filesize(imgfile);
 	size_t lsize = filesize(labelfile);
 	
-<<<<<<< HEAD
-	vector<vector<uint8_t>> images = processImages(imagebytes, isize);
-	vector<uint8_t> labels = processLabels(labelbytes, lsize);
-
-	
-=======
 	vector<vector<double>> images = processImages(imagebytes, isize);
 	vector<double> labels = processLabels(labelbytes, lsize);
 
@@ -69,7 +63,6 @@ int main() {
 
 	//cout << endl << ii.predict(matrix(images[0])/255);
 	ii.save("iimap.nn");
->>>>>>> 171f121ad526e48ed077387bc9370b5476e53887
 
     return 0;
 }
