@@ -1,6 +1,6 @@
 #include "network.hpp"
 
-network::network(std::vector<int> map) {
+network::network(std::vector<int> map, double lrate) {
 	w.resize(map.size() - 1);
 	b.resize(map.size() - 1);
 
@@ -8,9 +8,11 @@ network::network(std::vector<int> map) {
 		w[i - 1] = matrix::randn(map[i-1], map[i]);
 		b[i - 1] = matrix::randn(map[i], 1);
 	}
+
+	this->lrate = lrate;
 }
 
-network::network(std::string fpath) {
+network::network(std::string fpath, double lrate) {
 	std::ifstream nnmap;
 	nnmap.open(fpath);
 
@@ -55,6 +57,8 @@ network::network(std::string fpath) {
     }
 
 	nnmap.close();
+
+	this->lrate = lrate;
 }
 
 matrix network::predict(matrix in) {
@@ -117,8 +121,8 @@ matrix network::propagate(matrix in, matrix out) {
 	}
 
 	for (int i = 0; i < w.size(); i++) {
-		w[i] = w[i] - costw[i];
-		b[i] = b[i] - costb[i];
+		w[i] = w[i] - (lrate*costw[i]);
+		b[i] = b[i] - (lrate*costb[i]);
 	}
 
 	return fcost;

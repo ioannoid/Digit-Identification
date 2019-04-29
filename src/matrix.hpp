@@ -11,6 +11,7 @@ class matrix {
 public:
 	matrix();
 	matrix(int r, int c);
+	matrix(std::vector<double> v);
 	matrix(std::vector<std::vector<double>> v);
 	matrix(std::initializer_list<std::initializer_list<double>> il);
 
@@ -23,6 +24,7 @@ public:
 	matrix operator+(double addend);
 	matrix operator-(double subtrahend);
 	matrix operator*(double factor);
+	matrix operator/(double divisor);
 	matrix operator^(double exponent);
 	matrix operator-();
 

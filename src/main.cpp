@@ -10,132 +10,58 @@ using namespace std;
 
 char* loadFile(const char* filename);
 size_t filesize(const char* filename);
-vector<vector<uint8_t>> processImages(char* imgbytes, size_t isize);
-vector<uint8_t> processLabels(char* lblbytes, size_t lsize);
+
+vector<vector<double>> processImages(char* imgbytes, size_t isize);
+vector<double> processLabels(char* lblbytes, size_t lsize);
+
+matrix fmtMatrix(double num);
 
 const int img_dimension = 28;
 const char* imgfile = "train-images";
 const char* labelfile = "train-labels";
 
 int main() {
+
+	srand (time(NULL));
+
 	char* imagebytes = loadFile(imgfile);
 	char* labelbytes = loadFile(labelfile);
 	
 	size_t isize = filesize(imgfile);
 	size_t lsize = filesize(labelfile);
 	
-	vector<vector<uint8_t>> images = processImages(imagebytes, isize);
-	vector<uint8_t> labels = processLabels(labelbytes, lsize);
+	vector<vector<double>> images = processImages(imagebytes, isize);
+	vector<double> labels = processLabels(labelbytes, lsize);
 
-	int img;
+	network ii(vector<int>{784,600,400,300,200,100,50,10}, 0.3);
 
-	cin >> img;
-	vector<uint8_t> image = images[img];
+	for (int i = 0; i < 100000; i++) {
+		int rindex = rand() % images.size();
+		ii.propagate(matrix(images[rindex]), fmtMatrix(labels[rindex]));
+		if(i % 100 == 0) cout << i << endl;
+	}
 
-	fstream file;
-	file.open("header", ios::in|ios::binary|ios::ate);
-    
-    size_t hsize = 0;
-    char* header;
-
-    file.seekg(0, ios::end);
-	hsize = file.tellg(); 
-	file.seekg(0, ios::beg); 
-
-    header = new char[hsize];
-
-    file.read( header, hsize );
-    file.close();
-
-    file.open("file.bmp", ios::binary | ios::out);
-    file.write(header, hsize);
-
-	int row = 0;
-	vector<uint8_t> pixels;
-
-	for(int i = image.size()-1; i >= 0; i--) {
-        pixels.push_back(image[i]);
-        pixels.push_back(image[i]);
-        pixels.push_back(image[i]);
-        row++;
-        if(row==28) {
-
-            std::reverse(pixels.begin(), pixels.end());
-
-            for (int j = 0; j < pixels.size(); j++) file.write((char*) &pixels[j], sizeof(char));
-            pixels.clear();
-            row = 0;
-        }
-    }
-
-	file.close();
-	
-	//Print out digit images with matching labels
-	// int r = 0;
-	// for (int i = 0; i < 5; i++) {
-	// 	for (int j = 0; j < images[i].size(); j++) {
-	// 		if (unsigned(images[i][j]) > 0) {
-	// 			cout << 1 << "";
-	// 		}
-	// 		else {
-	// 			cout << 0 << "";
-	// 		}
-	// 		r++;
-	// 		if (r == 28) {
-	// 			r = 0;
-	// 			cout << endl;
-	// 		}
+	// for (int i = 0; i < 100; i++) {
+	// 	int rindex = rand() % images.size();
+	// 	matrix prediction = ii.predict(matrix(images[rindex]));
+	// 	int guess;
+	// 	double max = 0;
+	// 	for(int r = 0; r < prediction.row(); r++) {
+	// 		cout << prediction[r][0] << " : " << max << endl;
+	// 		if (prediction[r][0] > max) {
+	// 			max = prediction[r][0];
+	// 			guess = r;
+	// 		} 
 	// 	}
-	// 	cout << unsigned(labels[i]) << endl << endl;
+	// 	cout << prediction << guess << " : " << labels[rindex] << endl << endl;
+		
 	// }
 
-	system("PAUSE"); 
+	cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
+	cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
 
-	/*network nn("nnmap.nn");
-
-	vector<matrix> w = nn.getWeights();
-	vector<matrix> b = nn.getBiases();
-
-	for(auto m : w) cout << m << endl;
-	for(auto m : b) cout << m << endl;
-
-	cout << nn.predict(matrix{{1},{2}});
-	cout << nn.predict(matrix{{2},{1}});
-	cout << nn.predict(matrix{{3},{4}});*/
-
-	/*network nn(std::vector<int>{ 2, 3,4, 2 });
-
-	cout << nn.predict(matrix{{1},{2}});
-	cout << nn.predict(matrix{{2},{1}});
-	cout << nn.predict(matrix{{3},{4}}) << std::endl;
-
-	srand(time(NULL));
-
-	vector<matrix> n1;
-	n1.push_back(matrix{{1},{2}});
-	n1.push_back(matrix{{2},{1}});
-	n1.push_back(matrix{{3},{4}});
-
-	vector<matrix> n2;
-
-	n2.push_back(matrix{{0},{1}});
-	n2.push_back(matrix{{1},{1}});
-	n2.push_back(matrix{{1},{0}});
-
-	for(int i = 0; i < 10000; i++) {
-		int n = rand() % 3;
-		matrix out = nn.propagate(n1[n], n2[n]);
-
-		if(i % 100 == 0) {
-			//cout << out << endl;
-		} 
-	} 
-
-	cout << nn.predict(matrix{{1},{2}});
-	cout << nn.predict(matrix{{2},{1}});
-	cout << nn.predict(matrix{{3},{4}});
-	
-	nn.save("nnmap1.nn");*/
+	//cout << endl << ii.predict(matrix(images[0])/255);
+	ii.save("iimap.nn");
 
     return 0;
 }
@@ -158,15 +84,15 @@ char* loadFile(const char* filename) {
 	return imagebytes;
 }
 
-vector<vector<uint8_t>> processImages(char* imgbytes, size_t isize) {
-	vector<vector<uint8_t>> images;
-	vector<uint8_t> image;
+vector<vector<double>> processImages(char* imgbytes, size_t isize) {
+	vector<vector<double>> images;
+	vector<double> image;
 	
 	int length = 0;
-	uint8_t pixel = 0;
+	double pixel = 0;
 
 	for (int i = 16; i < isize; i++) {
-		memcpy(&pixel, imgbytes + i, 1);
+		pixel = (double) (uint8_t) imgbytes[i];
 		image.push_back(pixel);
 		length++;
 		if (length == img_dimension * img_dimension) {
@@ -175,15 +101,17 @@ vector<vector<uint8_t>> processImages(char* imgbytes, size_t isize) {
 			length = 0;
 		}
 	}
+
 	return images;
 }
 
-vector<uint8_t> processLabels(char* lblbytes, size_t lsize) {
-	vector<uint8_t> labels;
+vector<double> processLabels(char* lblbytes, size_t lsize) {
+	vector<double> labels;
+
+	double cur = 0;
 
 	for (int i = 8; i < lsize; i++) {
-		uint8_t cur = 0;
-		memcpy(&cur, lblbytes + i, 1);
+		cur = (double) (uint8_t) lblbytes[i];
 		labels.push_back(cur);
 	}
 
@@ -200,4 +128,10 @@ size_t filesize(const char* filename) {
 
 	size_t size = file.tellg();
 	return size;
+}
+
+matrix fmtMatrix(double num) {
+	matrix fmt(10, 1);
+	fmt[num][0] = 1;
+	return fmt;
 }

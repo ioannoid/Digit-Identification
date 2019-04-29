@@ -7,6 +7,11 @@ matrix::matrix(int r, int c) {
 	for (int i = 0; i < r; i++) data[i] = std::vector<double>(c, 0);
 }
 
+matrix::matrix(std::vector<double> v) {
+	data.resize(v.size());
+	for(int i = 0; i < v.size(); i++) data[i] = std::vector<double>{v[i]};
+}
+
 matrix::matrix(std::vector<std::vector<double>> v) : data(v) {}
 
 matrix::matrix(std::initializer_list<std::initializer_list<double>> il) {
@@ -99,6 +104,17 @@ matrix matrix::operator*(double factor) {
 	}
 
 	return product;
+}
+
+matrix matrix::operator/(double divisor) {
+	matrix quotient = data;
+	for (int r = 0; r < row(); r++) {
+		for (int c = 0; c < col(); c++) {
+			quotient[r][c] /= divisor;
+		}
+	}
+
+	return quotient;
 }
 
 matrix matrix::operator^(double exponent) {
