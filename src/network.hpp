@@ -9,8 +9,8 @@
 
 class network {
 public:
-	network(std::vector<int> map);
-	network(std::string fpath);
+	network(std::vector<int> map, double lrate);
+	network(std::string fpath, double lrate);
 
 	matrix predict(matrix in);
 	matrix propagate(matrix in, matrix out);
@@ -29,4 +29,6 @@ public:
 private:
 	std::vector<matrix> w;
 	std::vector<matrix> b;
+
+	double lrate;
 };
