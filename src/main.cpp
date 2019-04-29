@@ -36,11 +36,11 @@ int main() {
 
 	network ii("iimap.nn", 0.3);
 
-	/*for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 1000; i++) {
 		int rindex = rand() % images.size();
-		ii.propagate(matrix(images[rindex]), fmtMatrix(labels[rindex]));
+		ii.propagate(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1), fmtMatrix(labels[rindex]));
 		if(i % 100 == 0) cout << i << endl;
-	}*/
+	}
 
 	// for (int i = 0; i < 100; i++) {
 	// 	int rindex = rand() % images.size();
@@ -58,8 +58,8 @@ int main() {
 		
 	// }
 
-	//cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
-	//cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
+	cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
+	cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
 
 	//cout << endl << ii.predict(matrix(images[0])/255);
 	ii.save("iimap.nn");
