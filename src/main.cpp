@@ -33,7 +33,7 @@ int main() {
 	vector<vector<double>> images = processImages(imagebytes, isize);
 	vector<double> labels = processLabels(labelbytes, lsize);
 
-	network ii(vector<int>{784,600,400,300,200,100,50,10}, 0.3);
+	network ii(vector<int>{784,200,10}, 0.3);
 
 	for (int i = 0; i < 100000; i++) {
 		int rindex = rand() % images.size();
