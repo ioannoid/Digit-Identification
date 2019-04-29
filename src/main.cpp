@@ -15,6 +15,7 @@ vector<vector<double>> processImages(char* imgbytes, size_t isize);
 vector<double> processLabels(char* lblbytes, size_t lsize);
 
 matrix fmtMatrix(double num);
+matrix mapMatrix(matrix m, double inmin, double inmax, double outmin, double outmax);
 
 const int img_dimension = 28;
 const char* imgfile = "train-images";
@@ -33,13 +34,13 @@ int main() {
 	vector<vector<double>> images = processImages(imagebytes, isize);
 	vector<double> labels = processLabels(labelbytes, lsize);
 
-	network ii(vector<int>{784,200,10}, 0.3);
+	network ii("iimap.nn", 0.3);
 
-	for (int i = 0; i < 100000; i++) {
+	/*for (int i = 0; i < 100000; i++) {
 		int rindex = rand() % images.size();
 		ii.propagate(matrix(images[rindex]), fmtMatrix(labels[rindex]));
 		if(i % 100 == 0) cout << i << endl;
-	}
+	}*/
 
 	// for (int i = 0; i < 100; i++) {
 	// 	int rindex = rand() % images.size();
@@ -57,8 +58,8 @@ int main() {
 		
 	// }
 
-	cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
-	cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
+	//cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
+	//cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
 
 	//cout << endl << ii.predict(matrix(images[0])/255);
 	ii.save("iimap.nn");
@@ -134,4 +135,8 @@ matrix fmtMatrix(double num) {
 	matrix fmt(10, 1);
 	fmt[num][0] = 1;
 	return fmt;
+}
+
+matrix mapMatrix(matrix m, double inmin, double inmax, double outmin, double outmax) {
+	return (m - inmin) * (outmax - outmin) / (inmax - inmin) + outmin;
 }
