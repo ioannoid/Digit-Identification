@@ -1,6 +1,3 @@
-//We used mnist as a source for images and labels to train the network.
-//Here is a link to the resource: http://yann.lecun.com/exdb/mnist/
-
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -25,6 +22,7 @@ const char* imgfile = "train-images";
 const char* labelfile = "train-labels";
 
 int main() {
+
 	srand (time(NULL));
 
 	char* imagebytes = loadFile(imgfile);
@@ -36,36 +34,63 @@ int main() {
 	vector<vector<double>> images = processImages(imagebytes, isize);
 	vector<double> labels = processLabels(labelbytes, lsize);
 
-	network ii("iimap.nn", 0.3);
+	char choice;
+	cout << "Would you like to train(t) or test(s): ";
+	cin >> choice;
+	cout << endl;
 
+	if(choice == 't' || choice == 'T') {
+		int iter;
+		cout << "How many iterations of training would you like to run: ";
+		cin >> iter;
+		cout << endl;
 
-	for (int i = 0; i < 1000; i++) {
-		int rindex = rand() % images.size();
-		ii.propagate(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1), fmtMatrix(labels[rindex]));
-		if(i % 100 == 0) cout << i << endl;
+		double lr;
+		cout << "What would you like the learning rate to be: ";
+		cin >> lr;
+		cout << endl;
+
+		network ii("iimap.nn", lr);
+
+		for (int i = 0; i < iter; i++) {
+			int rindex = rand() % images.size();
+			ii.propagate(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1), fmtMatrix(labels[rindex]));
+			if(i % 100 == 0) cout << i << endl;
+		}
+
+		ii.save("iimap.nn");
 	}
+	else if(choice == 's' || choice == 'S') {
 
-	// for (int i = 0; i < 100; i++) {
-	// 	int rindex = rand() % images.size();
-	// 	matrix prediction = ii.predict(matrix(images[rindex]));
-	// 	int guess;
-	// 	double max = 0;
-	// 	for(int r = 0; r < prediction.row(); r++) {
-	// 		cout << prediction[r][0] << " : " << max << endl;
-	// 		if (prediction[r][0] > max) {
-	// 			max = prediction[r][0];
-	// 			guess = r;
-	// 		} 
-	// 	}
-	// 	cout << prediction << guess << " : " << labels[rindex] << endl << endl;
-		
-	// }
+		network ii("iimap.nn", 0.3);
 
-	cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
-	cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
+		int iter;
+		cout << "How many images would you like to test: ";
+		cin >> iter;
+		cout << endl;
 
-	//cout << endl << ii.predict(matrix(images[0])/255);
-	ii.save("iimap.nn");
+		double right = 0;
+		double total = 0;
+
+		for (int i = 0; i < iter; i++) {
+			int rindex = rand() % images.size();
+			matrix prediction = ii.predict(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1));
+			int guess;
+			double max = 0;
+			for(int r = 0; r < prediction.row(); r++) {
+				if (prediction[r][0] > max) {
+					max = prediction[r][0];
+					guess = r;
+				} 
+			}
+			cout << prediction << guess << " : " << labels[rindex] << endl << endl;
+			if (guess == labels[rindex]) right++;
+			total++;
+			
+		}
+
+		cout << right / total << endl;
+	}
 
     return 0;
 }
