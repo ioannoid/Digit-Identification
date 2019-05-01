@@ -9,7 +9,7 @@
 using namespace std;
 
 char* loadFile(const char* filename);
-size_t filesize(const char* filename);
+int filesize(const char* filename);
 
 vector<vector<double>> processImages(const char* filename, size_t isize);
 vector<double> processLabels(const char* filename, size_t lsize);
@@ -102,7 +102,7 @@ int main() {
 
 char* loadFile(const char* filename) {
 	char* imagebytes;
-	size_t isize;
+	int isize;
 
 	ifstream imagedata;
 	imagedata.open(filename, ios::binary);
@@ -154,7 +154,7 @@ vector<double> processLabels(const char* filename, size_t lsize) {
 	return labels;
 }
 
-size_t filesize(const char* filename) {
+int filesize(const char* filename) {
 	ifstream file;
 	file.open(filename, ios::ate | ios::binary);
 
@@ -163,7 +163,14 @@ size_t filesize(const char* filename) {
 	}
 
 	size_t size = file.tellg();
-	return size;
+
+	//Convert size_t to int
+	int finalsize;
+	for (int i = 0; i < size; i++) {
+		finalsize += 1;
+	}
+
+	return finalsize;
 }
 
 matrix fmtMatrix(double num) {
