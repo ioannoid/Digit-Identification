@@ -1,3 +1,6 @@
+//We used mnist as a source for images and labels to train the network.
+//Here is a link to the resource: http://yann.lecun.com/exdb/mnist/
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -22,7 +25,6 @@ const char* imgfile = "train-images";
 const char* labelfile = "train-labels";
 
 int main() {
-
 	srand (time(NULL));
 
 	char* imagebytes = loadFile(imgfile);
@@ -35,6 +37,7 @@ int main() {
 	vector<double> labels = processLabels(labelbytes, lsize);
 
 	network ii("iimap.nn", 0.3);
+
 
 	for (int i = 0; i < 1000; i++) {
 		int rindex = rand() % images.size();
