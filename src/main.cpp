@@ -50,7 +50,7 @@ int main() {
 		cin >> lr;
 		cout << endl;
 
-		network ii("iimap.nn", lr);
+		network ii("imap.nn", lr);
 
 		for (int i = 0; i < iter; i++) {
 			int rindex = rand() % images.size();
@@ -58,11 +58,11 @@ int main() {
 			if(i % 100 == 0) cout << i << endl;
 		}
 
-		ii.save("iimap.nn");
+		ii.save("imap.nn");
 	}
 	else if(choice == 's' || choice == 'S') {
 
-		network ii("iimap.nn", 0.3);
+		network ii("imap.nn", 0.3);
 
 		int iter;
 		cout << "How many images would you like to test: ";
