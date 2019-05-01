@@ -18,7 +18,7 @@ matrix matrix::operator+ (matrix& addend) {
 	int addendrows = addend.getData().size();
 	int addendcols = addend.getData()[0].size();
 	if (ogrows == addendrows && ogcols == addendcols) {
-
+		
 	}
 	else {
 		std::cout << "Two matrixes of different size were attempted to be added.";
