@@ -83,7 +83,15 @@ int main() {
 					guess = r;
 				} 
 			}
-			cout << prediction << guess << " : " << labels[rindex] << endl << endl;
+
+			for(int j = 0; j < images[rindex].size(); j++) {
+				if(images[rindex][j] > 0) cout << (char) 219 << (char) 219 << (char) 219;
+				else cout << ' ' << ' ' << ' ';
+
+				if(j % 28 == 0) cout << endl;
+			}
+
+			cout << "Guess: " << guess << endl << endl;
 			if (guess == labels[rindex]) right++;
 			total++;
 			
