@@ -34,35 +34,36 @@ int main() {
 	vector<vector<double>> images = processImages(imagebytes, isize);
 	vector<double> labels = processLabels(labelbytes, lsize);
 
-	network ii("iimap.nn", 0.3);
+	network ii("iimap.nn", 0.4);
 
-	for (int i = 0; i < 10000; i++) {
-		int rindex = rand() % images.size();
-		ii.propagate(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1), fmtMatrix(labels[rindex]));
-		if(i % 100 == 0) cout << i << endl;
-	}
-
-	// for (int i = 0; i < 100; i++) {
+	// for (int i = 0; i < 100000; i++) {
 	// 	int rindex = rand() % images.size();
-	// 	matrix prediction = ii.predict(matrix(images[rindex]));
-	// 	int guess;
-	// 	double max = 0;
-	// 	for(int r = 0; r < prediction.row(); r++) {
-	// 		cout << prediction[r][0] << " : " << max << endl;
-	// 		if (prediction[r][0] > max) {
-	// 			max = prediction[r][0];
-	// 			guess = r;
-	// 		} 
-	// 	}
-	// 	cout << prediction << guess << " : " << labels[rindex] << endl << endl;
-		
+	// 	ii.propagate(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1), fmtMatrix(labels[rindex]));
+	// 	if(i % 100 == 0) cout << i << endl;
 	// }
 
-	cout << ii.predict(matrix(images[0])) << endl << fmtMatrix(labels[0]) << endl;
-	cout << ii.predict(matrix(images[1])) << endl << fmtMatrix(labels[1]) << endl;
-	cout << ii.predict(matrix(images[2])) << endl << fmtMatrix(labels[2]) << endl;
+	double right = 0;
+	double total = 0;
 
-	//cout << endl << ii.predict(matrix(images[0])/255);
+	for (int i = 0; i < 1000; i++) {
+		int rindex = rand() % images.size();
+		matrix prediction = ii.predict(mapMatrix(matrix(images[rindex]), 0, 255, -1, 1));
+		int guess;
+		double max = 0;
+		for(int r = 0; r < prediction.row(); r++) {
+			if (prediction[r][0] > max) {
+				max = prediction[r][0];
+				guess = r;
+			} 
+		}
+		cout << prediction << guess << " : " << labels[rindex] << endl << endl;
+		if (guess == labels[rindex]) right++;
+		total++;
+		
+	}
+
+	cout << right / total << endl;
+
 	ii.save("iimap.nn");
 
     return 0;
