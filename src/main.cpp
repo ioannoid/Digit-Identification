@@ -11,8 +11,8 @@ using namespace std;
 char* loadFile(const char* filename);
 size_t filesize(const char* filename);
 
-vector<vector<double>> processImages(char* imgbytes, size_t isize);
-vector<double> processLabels(char* lblbytes, size_t lsize);
+vector<vector<double>> processImages(const char* filename, size_t isize);
+vector<double> processLabels(const char* filename, size_t lsize);
 
 matrix fmtMatrix(double num);
 matrix mapMatrix(matrix m, double inmin, double inmax, double outmin, double outmax);
@@ -24,15 +24,12 @@ const char* labelfile = "train-labels";
 int main() {
 
 	srand (time(NULL));
-
-	char* imagebytes = loadFile(imgfile);
-	char* labelbytes = loadFile(labelfile);
 	
 	size_t isize = filesize(imgfile);
 	size_t lsize = filesize(labelfile);
 	
-	vector<vector<double>> images = processImages(imagebytes, isize);
-	vector<double> labels = processLabels(labelbytes, lsize);
+	vector<vector<double>> images = processImages(imgfile, isize);
+	vector<double> labels = processLabels(labelfile, lsize);
 
 	char choice;
 	cout << "Would you like to train(t) or test(s): ";
@@ -121,7 +118,8 @@ char* loadFile(const char* filename) {
 	return imagebytes;
 }
 
-vector<vector<double>> processImages(char* imgbytes, size_t isize) {
+vector<vector<double>> processImages(const char* filename, size_t isize) {
+	char* imgbytes = loadFile(filename);
 	vector<vector<double>> images;
 	vector<double> image;
 	
@@ -142,7 +140,8 @@ vector<vector<double>> processImages(char* imgbytes, size_t isize) {
 	return images;
 }
 
-vector<double> processLabels(char* lblbytes, size_t lsize) {
+vector<double> processLabels(const char* filename, size_t lsize) {
+	char* lblbytes = loadFile(filename);
 	vector<double> labels;
 
 	double cur = 0;
