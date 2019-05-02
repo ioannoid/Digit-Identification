@@ -133,7 +133,8 @@ vector<vector<double>> processImages(const char* filename) {
 	double pixel = 0;
 
 	//Process data from imgbytes array into 2d vector
-	//Each element in first dimension represents an image, while each element in second dimension represents a list of its pixeldata
+	//Each element in first dimension represents an image, while each element in second dimension
+	//represents a list of its pixeldata
 	for (int i = 16; i < isize; i++) {
 		pixel = (double) (uint8_t) imgbytes[i];
 		image.push_back(pixel);
