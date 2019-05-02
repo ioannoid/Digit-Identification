@@ -11,8 +11,8 @@ using namespace std;
 char* loadFile(const char* filename);
 int filesize(const char* filename);
 
-vector<vector<double>> processImages(const char* filename);
-vector<double> processLabels(const char* filename);
+vector<vector<double>> processImages(const char* filename, size_t isize);
+vector<double> processLabels(const char* filename, size_t lsize);
 
 matrix fmtMatrix(double num);
 matrix mapMatrix(matrix m, double inmin, double inmax, double outmin, double outmax);
@@ -24,9 +24,12 @@ const char* labelfile = "train-labels";
 int main() {
 
 	srand (time(NULL));
-
-	vector<vector<double>> images = processImages(imgfile);
-	vector<double> labels = processLabels(labelfile);
+	
+	size_t isize = filesize(imgfile);
+	size_t lsize = filesize(labelfile);
+	
+	vector<vector<double>> images = processImages(imgfile, isize);
+	vector<double> labels = processLabels(labelfile, lsize);
 
 	char choice;
 	cout << "Would you like to train(t) or test(s): ";
@@ -94,7 +97,6 @@ int main() {
 		cout << right / total << endl;
 	}
 
-	system("PAUSE");
     return 0;
 }
 
@@ -111,29 +113,19 @@ char* loadFile(const char* filename) {
 	isize = filesize(filename);
 	imagebytes = new char[isize];
 
-	int it = 0;
-	bool dblcheck = true;
-	while (imagedata >> imagebytes && dblcheck) {
-		it++;
-		if (it > isize) dblcheck = false;
-	}
+	imagedata.read(imagebytes, isize);
 	imagedata.close();
 	return imagebytes;
 }
 
-vector<vector<double>> processImages(const char* filename) {
-	//Load data from file into 1d array
+vector<vector<double>> processImages(const char* filename, size_t isize) {
 	char* imgbytes = loadFile(filename);
-
 	vector<vector<double>> images;
 	vector<double> image;
-	int isize = filesize(filename);
 	
 	int length = 0;
 	double pixel = 0;
 
-	//Process data from imgbytes array into 2d vector
-	//Each element in first dimension represents an image, while each element in second dimension represents a list of its pixeldata
 	for (int i = 16; i < isize; i++) {
 		pixel = (double) (uint8_t) imgbytes[i];
 		image.push_back(pixel);
@@ -148,16 +140,12 @@ vector<vector<double>> processImages(const char* filename) {
 	return images;
 }
 
-vector<double> processLabels(const char* filename) {
-	//Load data from file into 1d array
+vector<double> processLabels(const char* filename, size_t lsize) {
 	char* lblbytes = loadFile(filename);
-
 	vector<double> labels;
-	int lsize = filesize(filename);
 
 	double cur = 0;
 
-	//Process data from lblbytes into appropriately formatted 1d vector
 	for (int i = 8; i < lsize; i++) {
 		cur = (double) (uint8_t) lblbytes[i];
 		labels.push_back(cur);
@@ -177,8 +165,8 @@ int filesize(const char* filename) {
 	size_t size = file.tellg();
 
 	//Convert size_t to int
-	int finalsize = 0;
-	for (size_t i = 0; i < size; i++) {
+	int finalsize;
+	for (int i = 0; i < size; i++) {
 		finalsize += 1;
 	}
 
